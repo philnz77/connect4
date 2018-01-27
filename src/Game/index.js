@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { range } from 'ramda';
+import React, { Component } from "react";
+import { range } from "ramda";
 
-import { defaultState, dropInCol } from './reducer';
-import Col from './Col';
-import Winner from './Winner';
-import Players from './Players';
-import makeGetWinner from './makeGetWinner';
+import { defaultState, dropInCol } from "./reducer";
+import Col from "./Col";
+import Winner from "./Winner";
+import Players from "./Players";
+import makeGetWinner from "./makeGetWinner";
 
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = defaultState(props);
-  this.getWinner = makeGetWinner(props);
+    this.getWinner = makeGetWinner(props);
   }
 
   render() {
