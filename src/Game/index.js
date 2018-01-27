@@ -11,7 +11,7 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = defaultState(props);
-      this.getWinner = makeGetWinner(props);
+  this.getWinner = makeGetWinner(props);
   }
 
   render() {
