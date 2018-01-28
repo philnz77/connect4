@@ -1,6 +1,6 @@
-import React from 'react';
-import { getPlayerWithTurn } from './reducer';
-const tokenSize = 10;
+import React from "react";
+import { getPlayerWithTurn } from "./reducer";
+const tokenSize = 12;
 const halfSize = tokenSize / 2;
 const TurnMarker = ({ player }) => {
   return (
@@ -20,7 +20,7 @@ export default ({ players, state }) => {
   const playerWithTurnIndex = getPlayerWithTurn(state, { players });
   return (
     <div>
-      Players:
+      <h5>Players: </h5>
       <ul>
         {players.map((player, playerIndex) => {
           const hasTurn = playerIndex === playerWithTurnIndex;

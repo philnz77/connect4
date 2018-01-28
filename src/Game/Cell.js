@@ -1,23 +1,24 @@
-import React from 'react';
+import React from "react";
 const size = 40;
 const borderWidth = 1;
 const tokenSize = size - borderWidth * 2;
 const halfSize = tokenSize / 2;
 
-export default ({ occupiedByPlayer, players }) => {
+export default ({ occupiedByPlayer, players, isWinner }) => {
   const isOccupied = occupiedByPlayer !== null;
   const style = {
     width: size,
     height: size,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth,
-    borderColor: 'black',
-    position: 'relative',
+    borderColor: "black",
+    position: "relative",
+    backgroundColor: isWinner ? "yellow" : "initial"
   };
   const svgStyle = {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
-    left: 0,
+    left: 0
   };
   return (
     <div style={style}>

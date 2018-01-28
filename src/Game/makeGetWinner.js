@@ -1,5 +1,5 @@
-import { range, xprod, groupBy, values, unnest } from 'ramda';
-import { getPlayerAt } from './reducer';
+import { range, xprod, groupBy, values, unnest } from "ramda";
+import { getPlayerAt } from "./reducer";
 const rowGroup = ({ row }) => row;
 const colGroup = ({ col }) => col;
 const diagonalDownGroup = ({ row, col }) => row + col;
@@ -8,7 +8,7 @@ const groupingFunctions = [
   rowGroup,
   colGroup,
   diagonalUpGroup,
-  diagonalDownGroup,
+  diagonalDownGroup
 ];
 
 function getGroupings({ connect, numRows, numCols }) {
@@ -46,7 +46,7 @@ export default props => {
         if (streak === connect) {
           return {
             player,
-            cells: grouping.slice(i + 1 - connect, connect),
+            cells: grouping.slice(i + 1 - connect, i + 1)
           };
         }
       }
