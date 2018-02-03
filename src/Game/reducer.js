@@ -13,7 +13,7 @@ export const areBotsPaused = state => state.botsPaused;
 
 export const unpauseBots = state => ({ botsPaused: false });
 
-const getCols = state => last(state.colsHistory);
+export const getCols = state => last(state.colsHistory);
 
 export const getTurn = state => sum(getCols(state).map(c => c.length));
 
@@ -27,12 +27,6 @@ export const isBotTurn = (state, props) => {
   const player = getPlayerIndexWithTurn(state, props);
   return isPlayerBot(state, player);
 };
-
-export function getPlayerAt(state, colIndex, rowIndex) {
-  const cols = getCols(state);
-  const col = cols[colIndex];
-  return rowIndex < col.length ? col[rowIndex] : null;
-}
 
 export const setPlayerToBot = (playerIndex, isBot) => (state, props) => {
   const stateDiff = {

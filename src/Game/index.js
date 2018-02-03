@@ -8,7 +8,8 @@ import {
   isBotTurn,
   areBotsPaused,
   unpauseBots,
-  setPlayerToBot
+  setPlayerToBot,
+  getCols
 } from "./reducer";
 import Col from "./Col";
 import Winner from "./Winner";
@@ -47,6 +48,7 @@ class Game extends Component {
     const paused = areBotsPaused(state);
     const makeSetPlayerToBot = (playerIndex, isBot) => () =>
       this.setState(setPlayerToBot(playerIndex, isBot));
+    const cols = getCols(state);
     return (
       <div>
         <div>
@@ -55,7 +57,7 @@ class Game extends Component {
             return (
               <Col
                 {...props}
-                state={state}
+                cols={cols}
                 key={colIndex}
                 colIndex={colIndex}
                 onClick={() => winner || botTurn || this.setState(dropIn)}

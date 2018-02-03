@@ -1,12 +1,11 @@
 import React from "react";
 import { range } from "ramda";
 import Cell from "./Cell";
-import { getPlayerAt } from "./reducer";
-export default ({ colIndex, state, numRows, players, onClick, winner }) => {
+export default ({ colIndex, cols, numRows, players, onClick, winner }) => {
   const cells = range(0, numRows)
     .reverse()
     .map(rowIndex => {
-      const occupiedByPlayer = getPlayerAt(state, colIndex, rowIndex);
+      const occupiedByPlayer = cols[colIndex][rowIndex];
       const isWinner =
         winner &&
         winner.cells.find(c => c.row === rowIndex && c.col === colIndex);

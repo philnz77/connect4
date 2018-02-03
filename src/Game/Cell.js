@@ -5,7 +5,7 @@ const tokenSize = size - borderWidth * 2;
 const halfSize = tokenSize / 2;
 
 export default ({ occupiedByPlayer, players, isWinner }) => {
-  const isOccupied = occupiedByPlayer !== null;
+  const isOccupied = !isNaN(occupiedByPlayer);
   const style = {
     width: size,
     height: size,

@@ -1,5 +1,5 @@
 import { range, xprod, groupBy, values, unnest } from "ramda";
-import { getPlayerAt } from "./reducer";
+import { getCols } from "./reducer";
 const rowGroup = ({ row }) => row;
 const colGroup = ({ col }) => col;
 const diagonalDownGroup = ({ row, col }) => row + col;
@@ -33,8 +33,8 @@ export default props => {
       let streak = 0;
       for (let i = 0; i < grouping.length; i++) {
         const { row, col } = grouping[i];
-        const playerAtCell = getPlayerAt(state, col, row);
-        if (playerAtCell === null) {
+        const playerAtCell = getCols(state)[col][row];
+        if (isNaN(playerAtCell)) {
           player = null;
           streak = 0;
         } else if (player === playerAtCell) {
