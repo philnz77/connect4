@@ -10,7 +10,7 @@ export default props => {
   const dontKnowEvaluation = new Array(players.length).fill(0);
   const winningEvaluation = winner => {
     const result = new Array(players.length).fill(min);
-    result[winner.player] = max;
+    result[winner.playerIndex] = max;
     return result;
   };
 
@@ -30,6 +30,9 @@ export default props => {
       }
       const playerWithTurn = getPlayerIndexWithTurn(state, props);
       const drops = _evaluateDrops(state).filter(d => d !== null);
+      if (drops.length === 0) {
+        return dontKnowEvaluation;
+      }
       return drops.reduce((best, curr) => {
         return best[playerWithTurn] > curr[playerWithTurn] ? best : curr;
       }, drops[0]);

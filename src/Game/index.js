@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { range } from "ramda";
-
 import {
   defaultState,
   dropInCol,
@@ -10,13 +8,11 @@ import {
   unpauseBots,
   setPlayerToBot,
   getCols,
-  getPlayerIndexWithTurn
+  getPlayersExtended
 } from "./reducer";
-import Col from "./Col";
-import Winner from "./Winner";
-import Players from "./Players";
 import makeGetWinner from "./makeGetWinner";
 import makeBotPick from "./makeBotPick";
+import Presentation from "./Presentation";
 
 class Game extends Component {
   constructor(props) {
@@ -29,12 +25,12 @@ class Game extends Component {
   componentDidUpdate() {
     const state = this.state;
     const props = this.props;
-    const botTurn = isBotTurn(state, props);
-    const paused = areBotsPaused(state);
-    if (botTurn && !this._winner && !paused) {
+    if (this._botShouldPlay) {
       setTimeout(() => {
         const botPicked = this.botPick(state, props);
-        this.setState(dropInCol(botPicked));
+        if (!isNaN(botPicked)) {
+          this.setState(dropInCol(botPicked));
+        }
       }, 100);
     }
   }
@@ -42,46 +38,41 @@ class Game extends Component {
   render() {
     const props = this.props;
     const state = this.state;
-    const { numCols } = props;
-    const winner = this.getWinner(state);
-    this._winner = winner;
+    const { numCols, numRows } = props;
+    const _winner = this.getWinner(state);
+    const players = getPlayersExtended(state, props);
+    const winner = _winner && {
+      ..._winner,
+      player: players[_winner.playerIndex]
+    };
+
     const botTurn = isBotTurn(state, props);
     const paused = areBotsPaused(state);
+    const humanShouldPlay = !botTurn && !winner;
+    this._botShouldPlay = botTurn && !winner && !paused;
+
     const makeSetPlayerToBot = (playerIndex, isBot) => () =>
       this.setState(setPlayerToBot(playerIndex, isBot));
     const cols = getCols(state);
-    const playerWithTurnIndex = getPlayerIndexWithTurn(state, props);
+    const onBack = () => this.setState(back);
+    const onUnpause = () => this.setState(unpauseBots);
+    const makeOnColClick = colIndex => () =>
+      humanShouldPlay && this.setState(dropInCol(colIndex));
     return (
-      <div>
-        <div>
-          {range(0, numCols).map(colIndex => {
-            const dropIn = dropInCol(colIndex);
-            return (
-              <Col
-                {...props}
-                cols={cols}
-                key={colIndex}
-                colIndex={colIndex}
-                onClick={() => winner || botTurn || this.setState(dropIn)}
-                winner={winner}
-              />
-            );
-          })}
-        </div>
-        <div style={{ display: "inline-block", textAlign: "left", width: 160 }}>
-          {winner && <Winner {...props} winner={winner} />}
-          <Players
-            {...props}
-            state={state}
-            makeSetPlayerToBot={makeSetPlayerToBot}
-            playerWithTurnIndex={playerWithTurnIndex}
-          />
-          <button onClick={() => this.setState(back)}>Back</button>
-          {paused && (
-            <button onClick={() => this.setState(unpauseBots)}>Run bot</button>
-          )}
-        </div>
-      </div>
+      <Presentation
+        {...{
+          numCols,
+          makeOnColClick,
+          numRows,
+          players,
+          cols,
+          winner,
+          makeSetPlayerToBot,
+          onBack,
+          onUnpause,
+          paused
+        }}
+      />
     );
   }
 }

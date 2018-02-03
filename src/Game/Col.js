@@ -33,10 +33,12 @@ Col.propTypes = {
   players: PropTypes.array.isRequired,
   onClick: PropTypes.func.isRequired,
   winner: PropTypes.shape({
-    cells: PropTypes.arrayOf({
-      row: PropTypes.number.isRequired,
-      col: PropTypes.number.isRequired
-    }).isRequired
+    cells: PropTypes.arrayOf(
+      PropTypes.shape({
+        row: PropTypes.number.isRequired,
+        col: PropTypes.number.isRequired
+      })
+    )
   })
 };
 

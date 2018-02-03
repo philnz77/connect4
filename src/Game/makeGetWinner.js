@@ -29,23 +29,23 @@ export default props => {
   return state => {
     for (let g = 0; g < groupings.length; g++) {
       const grouping = groupings[g];
-      let player = null;
+      let playerIndex = null;
       let streak = 0;
       for (let i = 0; i < grouping.length; i++) {
         const { row, col } = grouping[i];
         const playerAtCell = getCols(state)[col][row];
         if (isNaN(playerAtCell)) {
-          player = null;
+          playerIndex = null;
           streak = 0;
-        } else if (player === playerAtCell) {
+        } else if (playerIndex === playerAtCell) {
           streak++;
         } else {
-          player = playerAtCell;
+          playerIndex = playerAtCell;
           streak = 1;
         }
         if (streak === connect) {
           return {
-            player,
+            playerIndex,
             cells: grouping.slice(i + 1 - connect, i + 1)
           };
         }

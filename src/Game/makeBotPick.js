@@ -9,6 +9,9 @@ export default props => {
     const evaluatedDrops = evaluateDrops(state)
       .map((dropEval, dropIndex) => ({ dropEval, dropIndex }))
       .filter(drop => drop.dropEval !== null);
+    if (evaluatedDrops.length === 0) {
+      return null;
+    }
     const playerWithTurn = getPlayerIndexWithTurn(state, props);
     const sortedDrops = sortBy(
       d => -d.dropEval[playerWithTurn],

@@ -19,7 +19,7 @@ class App extends Component {
             numRows={6}
             players={players}
             connect={4}
-            botDepth={3}
+            botDepth={5}
           />
         </div>
       </div>

@@ -1,41 +1,19 @@
 import React from "react";
-import { isPlayerBot } from "./reducer";
-const tokenSize = 12;
-const halfSize = tokenSize / 2;
-const TurnMarker = ({ player }) => {
-  return (
-    <svg height={tokenSize} width={tokenSize}>
-      <circle
-        cx={halfSize}
-        cy={halfSize}
-        r={halfSize}
-        stroke="black"
-        fill={player.color}
-      />
-    </svg>
-  );
-};
+import PropTypes from "prop-types";
+import TurnMarker from "./TurnMarker";
 
-export default ({
-  state,
-  makeSetPlayerToBot,
-  playerWithTurnIndex,
-  ...props
-}) => {
-  const { players } = props;
-
+const Players = ({ makeSetPlayerToBot, players }) => {
   return (
     <div>
       <h5>Players: </h5>
       <ul>
-        {players.map((player, playerIndex) => {
-          const hasTurn = playerIndex === playerWithTurnIndex;
-          const isBot = isPlayerBot(state, playerIndex);
+        {players.map(player => {
+          const { playerIndex, hasTurn, isBot, name } = player;
           const onSetPlayerToBot = makeSetPlayerToBot(playerIndex, !isBot);
           return (
             <li key={playerIndex}>
               <input type="checkbox" onClick={onSetPlayerToBot} value={isBot} />{" "}
-              {player.name} {hasTurn && <TurnMarker player={player} />}
+              {name} {hasTurn && <TurnMarker player={player} />}
             </li>
           );
         })}
@@ -43,3 +21,16 @@ export default ({
     </div>
   );
 };
+
+Players.propTypes = {
+  players: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      playerIndex: PropTypes.number.isRequired,
+      hasTurn: PropTypes.bool.isRequired,
+      isBot: PropTypes.bool.isRequired
+    }).isRequired
+  ),
+  makeSetPlayerToBot: PropTypes.func
+};
+export default Players;

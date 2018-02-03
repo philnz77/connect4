@@ -28,6 +28,21 @@ export const isBotTurn = (state, props) => {
   return isPlayerBot(state, player);
 };
 
+export const getPlayersExtended = (state, props) => {
+  const playerWithTurnIndex = getPlayerIndexWithTurn(state, props);
+  const { players } = props;
+  return players.map((player, playerIndex) => {
+    const hasTurn = playerIndex === playerWithTurnIndex;
+    const isBot = isPlayerBot(state, playerIndex);
+    return {
+      ...player,
+      isBot,
+      hasTurn,
+      playerIndex
+    };
+  });
+};
+
 export const setPlayerToBot = (playerIndex, isBot) => (state, props) => {
   const stateDiff = {
     bots: {

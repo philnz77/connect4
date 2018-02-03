@@ -1,7 +1,16 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
-export default ({ winner, players }) => {
-  const { name } = players[winner.player];
-
-  return <div>Winner is {name}</div>;
+const Winner = ({ winner }) => {
+  return <div>Winner is {winner.player.name}</div>;
 };
+
+Winner.propTypes = {
+  winner: PropTypes.shape({
+    player: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    }).isRequired
+  })
+};
+
+export default Winner;
