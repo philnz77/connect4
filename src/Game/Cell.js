@@ -41,8 +41,9 @@ Cell.propTypes = {
   playerIndex: PropTypes.number,
   players: PropTypes.arrayOf(
     PropTypes.shape({
-      color: PropTypes.string
+      color: PropTypes.string.isRequired
     })
-  )
+  ).isRequired,
+  isWinner: PropTypes.bool.isRequired
 };
 export default Cell;
