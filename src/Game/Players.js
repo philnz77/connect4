@@ -1,5 +1,5 @@
 import React from "react";
-import { getPlayerIndexWithTurn, isPlayerBot } from "./reducer";
+import { isPlayerBot } from "./reducer";
 const tokenSize = 12;
 const halfSize = tokenSize / 2;
 const TurnMarker = ({ player }) => {
@@ -16,9 +16,14 @@ const TurnMarker = ({ player }) => {
   );
 };
 
-export default ({ state, makeSetPlayerToBot, ...props }) => {
+export default ({
+  state,
+  makeSetPlayerToBot,
+  playerWithTurnIndex,
+  ...props
+}) => {
   const { players } = props;
-  const playerWithTurnIndex = getPlayerIndexWithTurn(state, props);
+
   return (
     <div>
       <h5>Players: </h5>

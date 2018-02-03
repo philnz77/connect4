@@ -9,7 +9,8 @@ import {
   areBotsPaused,
   unpauseBots,
   setPlayerToBot,
-  getCols
+  getCols,
+  getPlayerIndexWithTurn
 } from "./reducer";
 import Col from "./Col";
 import Winner from "./Winner";
@@ -49,6 +50,7 @@ class Game extends Component {
     const makeSetPlayerToBot = (playerIndex, isBot) => () =>
       this.setState(setPlayerToBot(playerIndex, isBot));
     const cols = getCols(state);
+    const playerWithTurnIndex = getPlayerIndexWithTurn(state, props);
     return (
       <div>
         <div>
@@ -72,6 +74,7 @@ class Game extends Component {
             {...props}
             state={state}
             makeSetPlayerToBot={makeSetPlayerToBot}
+            playerWithTurnIndex={playerWithTurnIndex}
           />
           <button onClick={() => this.setState(back)}>Back</button>
           {paused && (
