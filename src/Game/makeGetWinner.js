@@ -11,7 +11,7 @@ const groupingFunctions = [
   diagonalDownGroup
 ];
 
-function getGroupings({ connect, numRows, numCols }) {
+function getGroupings(connect, numRows, numCols) {
   const rows = range(0, numRows);
   const cols = range(0, numCols);
   const cells = xprod(rows, cols).map(([row, col]) => ({ row, col }));
@@ -23,9 +23,8 @@ function getGroupings({ connect, numRows, numCols }) {
   );
 }
 
-export default props => {
-  const groupings = getGroupings(props);
-  const { connect } = props;
+export default ({ connect, numRows, numCols }) => {
+  const groupings = getGroupings(connect, numRows, numCols);
   return state => {
     for (let g = 0; g < groupings.length; g++) {
       const grouping = groupings[g];
