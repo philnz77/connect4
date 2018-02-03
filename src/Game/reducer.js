@@ -1,15 +1,32 @@
-import { sum, last, dropLast } from "ramda";
+import { sum, last, dropLast, values } from "ramda";
 export const defaultState = ({ numCols }) => {
   return {
-    colsHistory: [new Array(numCols).fill([])]
+    colsHistory: [new Array(numCols).fill([])],
+    bots: {},
+    botsPaused: false
   };
 };
 
-const getCols = state => last(state.colsHistory);
-const getTurn = state => sum(getCols(state).map(c => c.length));
+const anyBots = state => values(state.bots).filter(v => v).length > 0;
 
-export const getPlayerWithTurn = (state, { players }) =>
+export const areBotsPaused = state => state.botsPaused;
+
+export const unpauseBots = state => ({ botsPaused: false });
+
+const getCols = state => last(state.colsHistory);
+
+export const getTurn = state => sum(getCols(state).map(c => c.length));
+
+export const getPlayerIndexWithTurn = (state, { players }) =>
   getTurn(state) % players.length;
+
+export const isPlayerBot = (state, playerIndex) =>
+  Boolean(state.bots[playerIndex]);
+
+export const isBotTurn = (state, props) => {
+  const player = getPlayerIndexWithTurn(state, props);
+  return isPlayerBot(state, player);
+};
 
 export function getPlayerAt(state, colIndex, rowIndex) {
   const cols = getCols(state);
@@ -17,13 +34,28 @@ export function getPlayerAt(state, colIndex, rowIndex) {
   return rowIndex < col.length ? col[rowIndex] : null;
 }
 
+export const setPlayerToBot = (playerIndex, isBot) => (state, props) => {
+  const stateDiff = {
+    bots: {
+      ...state.bots,
+      [playerIndex]: isBot
+    }
+  };
+  const settingCurrentToBot =
+    getPlayerIndexWithTurn(state, props) === playerIndex;
+  if (settingCurrentToBot) {
+    stateDiff.botsPaused = true;
+  }
+  return stateDiff;
+};
+
 export const dropInCol = colIndex => (state, props) => {
   const cols = getCols(state);
   const { numRows } = props;
-  const player = getPlayerWithTurn(state, props);
+  const player = getPlayerIndexWithTurn(state, props);
   const col = cols[colIndex];
   if (col.length >= numRows) {
-    return {};
+    return state;
   }
   const newCol = [...col, player];
   const newCols = [...cols];
@@ -36,9 +68,10 @@ export const dropInCol = colIndex => (state, props) => {
 
 export const back = state => {
   if (state.colsHistory.length === 1) {
-    return {};
+    return state;
   }
   return {
-    colsHistory: dropLast(1, state.colsHistory)
+    colsHistory: dropLast(1, state.colsHistory),
+    botsPaused: anyBots(state)
   };
 };

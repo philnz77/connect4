@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
-import Game from './Game';
+import React, { Component } from "react";
+import "./App.css";
+import Game from "./Game";
 
 class App extends Component {
   render() {
     const players = [
-      { color: 'red', name: 'red' },
-      { color: 'black', name: 'black' },
+      { color: "red", name: "red" },
+      { color: "black", name: "black" }
     ];
     return (
       <div className="App">
@@ -14,7 +14,13 @@ class App extends Component {
           <h1 className="App-title">Connect4</h1>
         </header>
         <div className="App-intro">
-          <Game numCols={7} numRows={6} players={players} connect={4} />
+          <Game
+            numCols={7}
+            numRows={6}
+            players={players}
+            connect={4}
+            botDepth={3}
+          />
         </div>
       </div>
     );
