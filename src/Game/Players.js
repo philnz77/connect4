@@ -28,7 +28,7 @@ export default ({ state, makeSetPlayerToBot, ...props }) => {
           const isBot = isPlayerBot(state, playerIndex);
           const onSetPlayerToBot = makeSetPlayerToBot(playerIndex, !isBot);
           return (
-            <li>
+            <li key={playerIndex}>
               <input type="checkbox" onClick={onSetPlayerToBot} value={isBot} />{" "}
               {player.name} {hasTurn && <TurnMarker player={player} />}
             </li>

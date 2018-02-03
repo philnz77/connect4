@@ -11,7 +11,7 @@ export default ({ colIndex, cols, numRows, players, onClick, winner }) => {
         winner.cells.find(c => c.row === rowIndex && c.col === colIndex);
       return (
         <Cell
-          occupiedByPlayer={occupiedByPlayer}
+          playerIndex={occupiedByPlayer}
           players={players}
           key={rowIndex}
           isWinner={isWinner}

@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 const size = 40;
 const borderWidth = 1;
 const tokenSize = size - borderWidth * 2;
 const halfSize = tokenSize / 2;
 
-export default ({ occupiedByPlayer, players, isWinner }) => {
-  const isOccupied = !isNaN(occupiedByPlayer);
+function Cell({ playerIndex, players, isWinner }) {
+  const isOccupied = !isNaN(playerIndex);
   const style = {
     width: size,
     height: size,
@@ -29,10 +30,19 @@ export default ({ occupiedByPlayer, players, isWinner }) => {
             cy={halfSize}
             r={halfSize - 4}
             stroke="black"
-            fill={players[occupiedByPlayer].color}
+            fill={players[playerIndex].color}
           />
         </svg>
       )}
     </div>
   );
+}
+Cell.propTypes = {
+  playerIndex: PropTypes.number,
+  players: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string
+    })
+  )
 };
+export default Cell;
