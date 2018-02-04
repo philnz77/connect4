@@ -1,5 +1,5 @@
 import { sortBy, range } from "ramda";
-import makeGetWinner from "./makeGetWinner";
+import _getWinner from "./getWinner";
 import { getTurn, dropInCol, getPlayerIndexWithTurn } from "./reducer";
 const randomFromArray = items =>
   items[Math.floor(Math.random() * items.length)];
@@ -7,7 +7,7 @@ const randomFromArray = items =>
 const min = -1;
 const max = 1;
 export default props => {
-  const getWinner = makeGetWinner(props);
+  const getWinner = _getWinner(props);
   const { botDepth, players, numCols } = props;
   const dontKnowEvaluation = new Array(players.length).fill(0);
   const winningEvaluation = winner => {

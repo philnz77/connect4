@@ -14,13 +14,7 @@ class App extends Component {
           <h1 className="App-title">Connect4</h1>
         </header>
         <div className="App-intro">
-          <Game
-            numCols={7}
-            numRows={6}
-            players={players}
-            connect={4}
-            botDepth={5}
-          />
+          <Game numCols={7} numRows={6} players={players} connect={4} />
         </div>
       </div>
     );

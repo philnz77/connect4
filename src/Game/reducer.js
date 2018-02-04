@@ -20,22 +20,18 @@ export const getTurn = state => sum(getCols(state).map(c => c.length));
 export const getPlayerIndexWithTurn = (state, { players }) =>
   getTurn(state) % players.length;
 
-export const isPlayerBot = (state, playerIndex) =>
-  Boolean(state.bots[playerIndex]);
-
-export const isBotTurn = (state, props) => {
-  const player = getPlayerIndexWithTurn(state, props);
-  return isPlayerBot(state, player);
-};
+export const getBotStrategy = (state, playerIndex) => state.bots[playerIndex];
 
 export const getPlayersExtended = (state, props) => {
   const playerWithTurnIndex = getPlayerIndexWithTurn(state, props);
   const { players } = props;
   return players.map((player, playerIndex) => {
     const hasTurn = playerIndex === playerWithTurnIndex;
-    const isBot = isPlayerBot(state, playerIndex);
+    const botStrategy = getBotStrategy(state, playerIndex);
+    const isBot = Boolean(botStrategy);
     return {
       ...player,
+      botStrategy,
       isBot,
       hasTurn,
       playerIndex
@@ -43,11 +39,16 @@ export const getPlayersExtended = (state, props) => {
   });
 };
 
-export const setPlayerToBot = (playerIndex, isBot) => (state, props) => {
+export const getCurrentPlayerExtended = (state, props) => {
+  const playerIndex = getPlayerIndexWithTurn(state, props);
+  return getPlayersExtended(state, props)[playerIndex];
+};
+
+export const setPlayerToBot = (playerIndex, chooserName) => (state, props) => {
   const stateDiff = {
     bots: {
       ...state.bots,
-      [playerIndex]: isBot
+      [playerIndex]: chooserName
     }
   };
   const settingCurrentToBot =

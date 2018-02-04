@@ -33,7 +33,7 @@ export default ({ connect, numRows, numCols }) => {
       for (let i = 0; i < grouping.length; i++) {
         const { row, col } = grouping[i];
         const playerAtCell = getCols(state)[col][row];
-        if (isNaN(playerAtCell)) {
+        if (!Number.isInteger(playerAtCell)) {
           playerIndex = null;
           streak = 0;
         } else if (playerIndex === playerAtCell) {

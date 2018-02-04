@@ -6,7 +6,7 @@ const tokenSize = size - borderWidth * 2;
 const halfSize = tokenSize / 2;
 
 function Cell({ playerIndex, players, isWinner }) {
-  const isOccupied = !isNaN(playerIndex);
+  const isOccupied = Number.isInteger(playerIndex);
   const style = {
     width: size,
     height: size,
