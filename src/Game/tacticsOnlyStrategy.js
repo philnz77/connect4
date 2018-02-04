@@ -50,6 +50,7 @@ export default props => {
     return _evaluateDrops(currentState);
   };
   return state => {
+    const t0 = Date.now();
     const evaluatedDrops = evaluateDrops(state)
       .map((dropEval, dropIndex) => ({ dropEval, dropIndex }))
       .filter(drop => drop.dropEval !== null);
@@ -65,7 +66,12 @@ export default props => {
     const bestEqual = sortedDrops.filter(
       d => d.dropEval[playerWithTurn] === bestDrop.dropEval[playerWithTurn]
     );
-    const bestRandom = randomFromArray(bestEqual);
-    return bestRandom.dropIndex;
+    const randomDrop = randomFromArray(bestEqual);
+    const time = Date.now() - t0;
+    return {
+      dropEval: randomDrop.dropEval[playerWithTurn],
+      dropIndex: randomDrop.dropIndex,
+      time
+    };
   };
 };

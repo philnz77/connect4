@@ -1,11 +1,15 @@
 import { sum, last, dropLast, values } from "ramda";
+const initialColHistory = numCols => [new Array(numCols).fill([])];
 export const defaultState = ({ numCols }) => {
   return {
-    colsHistory: [new Array(numCols).fill([])],
+    colsHistory: initialColHistory(numCols),
+    botPickHistory: [],
     bots: {},
     botsPaused: false
   };
 };
+
+export const getBotPickHistory = state => state.botPickHistory;
 
 const anyBots = state => values(state.bots).filter(v => v).length > 0;
 
@@ -73,6 +77,27 @@ export const dropInCol = colIndex => (state, props) => {
   const colsHistory = [...state.colsHistory, newCols];
   return {
     colsHistory
+  };
+};
+
+export const dropBotPick = ({ dropEval, dropIndex, time }, player) => (
+  state,
+  props
+) => {
+  const dropInState = dropInCol(dropIndex)(state, props);
+  const turn = getTurn(state);
+  const histItem = { dropEval, dropIndex, player, turn, time };
+
+  return {
+    ...dropInState,
+    botPickHistory: [...state.botPickHistory, histItem]
+  };
+};
+
+export const clear = (state, { numCols }) => {
+  return {
+    colsHistory: initialColHistory(numCols),
+    botPickHistory: []
   };
 };
 

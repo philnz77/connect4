@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import {
   defaultState,
   dropInCol,
+  dropBotPick,
   back,
   getCurrentPlayerExtended,
   areBotsPaused,
   unpauseBots,
   setPlayerToBot,
   getCols,
-  getPlayersExtended
+  getPlayersExtended,
+  getBotPickHistory,
+  clear
 } from "./reducer";
 import getWinner from "./getWinner";
 import tacticsOnlyStrategy from "./tacticsOnlyStrategy";
@@ -20,20 +23,23 @@ class Game extends Component {
     this.state = defaultState(props);
     this.getWinner = getWinner(props);
     this.botStrategies = {
-      "Tactics Only depth 3": tacticsOnlyStrategy({ ...props, botDepth: 3 })
+      "Tactics Only depth 3": tacticsOnlyStrategy({ ...props, botDepth: 3 }),
+      "Tactics Only depth 4": tacticsOnlyStrategy({ ...props, botDepth: 4 }),
+      "Tactics Only depth 5": tacticsOnlyStrategy({ ...props, botDepth: 5 }),
+      "Tactics Only depth 6": tacticsOnlyStrategy({ ...props, botDepth: 6 })
     };
   }
 
   componentDidUpdate() {
     const state = this.state;
     const props = this.props;
-
-    if (this.botPlayerToPlay) {
-      const strategy = this.botStrategies[this.botPlayerToPlay.botStrategy];
+    const botPlayerToPlay = this.botPlayerToPlay;
+    if (botPlayerToPlay) {
+      const strategy = this.botStrategies[botPlayerToPlay.botStrategy];
       setTimeout(() => {
         const botPicked = strategy(state, props);
-        if (Number.isInteger(botPicked)) {
-          this.setState(dropInCol(botPicked));
+        if (botPicked) {
+          this.setState(dropBotPick(botPicked, botPlayerToPlay));
         }
       }, 100);
     }
@@ -57,15 +63,15 @@ class Game extends Component {
     const humanShouldPlay = !botTurn && !winner;
     this.botPlayerToPlay = botTurn && !winner && !paused ? currentPlayer : null;
 
-    const makeSetPlayerToBot = (playerIndex, isBot) => () =>
-      this.setState(
-        setPlayerToBot(playerIndex, isBot ? "Tactics Only depth 3" : null)
-      );
+    const _setPlayerToBot = (playerIndex, strategy) =>
+      this.setState(setPlayerToBot(playerIndex, strategy));
     const cols = getCols(state);
     const onBack = () => this.setState(back);
+    const onClear = () => this.setState(clear);
     const onUnpause = () => this.setState(unpauseBots);
     const makeOnColClick = colIndex => () =>
       humanShouldPlay && this.setState(dropInCol(colIndex));
+    const botPickHistory = getBotPickHistory(state);
     return (
       <Presentation
         {...{
@@ -75,10 +81,12 @@ class Game extends Component {
           players,
           cols,
           winner,
-          makeSetPlayerToBot,
+          setPlayerToBot: _setPlayerToBot,
           onBack,
           onUnpause,
-          paused
+          paused,
+          botPickHistory,
+          onClear
         }}
       />
     );

@@ -4,6 +4,7 @@ import { range } from "ramda";
 import Col from "./Col";
 import Winner from "./Winner";
 import Players from "./Players";
+import BotPickHistory from "./BotPickHistory";
 const Presentation = ({
   numCols,
   makeOnColClick,
@@ -11,10 +12,12 @@ const Presentation = ({
   players,
   cols,
   winner,
-  makeSetPlayerToBot,
+  setPlayerToBot,
   onBack,
   onUnpause,
-  paused
+  paused,
+  botPickHistory,
+  onClear
 }) => {
   return (
     <div>
@@ -34,11 +37,15 @@ const Presentation = ({
           );
         })}
       </div>
-      <div style={{ display: "inline-block", textAlign: "left", width: 160 }}>
+      <div style={{ display: "inline-block", textAlign: "left", width: 300 }}>
         {winner && <Winner winner={winner} />}
-        <Players players={players} makeSetPlayerToBot={makeSetPlayerToBot} />
-        <button onClick={onBack}>Back</button>
+        <Players players={players} setPlayerToBot={setPlayerToBot} />
+        <button onClick={onClear}>Clear</button>{" "}
+        <button onClick={onBack}>Back</button>{" "}
         {paused && <button onClick={onUnpause}>Run bot</button>}
+        {botPickHistory.length > 0 && (
+          <BotPickHistory botPickHistory={botPickHistory} />
+        )}
       </div>
     </div>
   );
@@ -51,7 +58,7 @@ Presentation.propTypes = {
   players: PropTypes.array.isRequired,
   cols: PropTypes.array.isRequired,
   winner: PropTypes.object,
-  makeSetPlayerToBot: PropTypes.func.isRequired,
+  setPlayerToBot: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
   onUnpause: PropTypes.func.isRequired,
   paused: PropTypes.bool.isRequired

@@ -1,25 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { range } from "ramda";
+import { range, reverse } from "ramda";
 import Cell from "./Cell";
 function Col({ colIndex, cols, numRows, players, onClick, winner }) {
-  const cells = range(0, numRows)
-    .reverse()
-    .map(rowIndex => {
-      const occupiedByPlayer = cols[colIndex][rowIndex];
-      const isWinner = Boolean(
-        winner &&
-          winner.cells.find(c => c.row === rowIndex && c.col === colIndex)
-      );
-      return (
-        <Cell
-          playerIndex={occupiedByPlayer}
-          players={players}
-          key={rowIndex}
-          isWinner={isWinner}
-        />
-      );
-    });
+  const cells = reverse(range(0, numRows)).map(rowIndex => {
+    const occupiedByPlayer = cols[colIndex][rowIndex];
+    const isWinner = Boolean(
+      winner && winner.cells.find(c => c.row === rowIndex && c.col === colIndex)
+    );
+    return (
+      <Cell
+        playerIndex={occupiedByPlayer}
+        players={players}
+        key={rowIndex}
+        isWinner={isWinner}
+      />
+    );
+  });
   return (
     <div onClick={onClick} style={{ display: "inline-block" }}>
       {cells}
