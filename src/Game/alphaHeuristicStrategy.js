@@ -1,16 +1,18 @@
-import { range } from "ramda";
-import { randomFromArray } from "./util";
+import { range, sortBy } from "ramda";
 import _getWinner from "./getWinner";
+import _getPotentials from "./getPotentials";
 import { getTurn, dropInCol, getPlayerIndexWithTurn } from "./reducer";
 
 import {
   winningEvaluation,
   dontKnowEvaluation,
-  evaluateAndChoose
+  evaluateAndChoose,
+  normalizeEvaluation
 } from "./strategyUtil";
 
 export default props => {
   const getWinner = _getWinner(props);
+  const getPotentials = _getPotentials(props);
   const { botDepth, players, numCols } = props;
 
   const evaluateDrops = currentState => {
@@ -25,7 +27,9 @@ export default props => {
       const turn = getTurn(state);
       const canRecurse = turn - currentTurn < botDepth;
       if (!canRecurse) {
-        return dontKnowEvaluation(players);
+        const potentials = getPotentials(state);
+        const normalizedPotentials = normalizeEvaluation(potentials);
+        return normalizedPotentials;
       }
       const playerWithTurn = getPlayerIndexWithTurn(state, props);
       const drops = _evaluateDrops(state).filter(d => d !== null);
@@ -37,17 +41,31 @@ export default props => {
       }, drops[0]);
     };
     const _evaluateDrops = state => {
-      return range(0, numCols).map(colIndex => {
+      const evaluatedDrops = range(0, numCols).map(colIndex => {
         const newState = dropInCol(colIndex)(state, props);
         if (state === newState) {
           return null;
         }
-        return evaluatePosition(newState);
+        const evaluatedPositions = evaluatePosition(newState);
+        return evaluatedPositions;
       });
+      return evaluatedDrops;
     };
     return _evaluateDrops(currentState);
   };
   return state => {
-    return evaluateAndChoose(evaluateDrops, randomFromArray, state, props);
+    const playerWithTurn = getPlayerIndexWithTurn(state, props);
+    function finalPick(drops) {
+      const sortedDrops = sortBy(d => {
+        const dropIndex = d.dropIndex;
+        const newState = dropInCol(dropIndex)(state, props);
+        const potentials = getPotentials(newState);
+        const normalizedPotentials = normalizeEvaluation(potentials);
+        const scoreForPlayer = normalizedPotentials[playerWithTurn];
+        return -scoreForPlayer;
+      }, drops);
+      return sortedDrops[0];
+    }
+    return evaluateAndChoose(evaluateDrops, finalPick, state, props);
   };
 };

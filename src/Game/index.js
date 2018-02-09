@@ -15,6 +15,7 @@ import {
 } from "./reducer";
 import getWinner from "./getWinner";
 import tacticsOnlyStrategy from "./tacticsOnlyStrategy";
+import alphaHeuristicStrategy from "./alphaHeuristicStrategy";
 import Presentation from "./Presentation";
 
 class Game extends Component {
@@ -26,7 +27,11 @@ class Game extends Component {
       "Tactics Only depth 3": tacticsOnlyStrategy({ ...props, botDepth: 3 }),
       "Tactics Only depth 4": tacticsOnlyStrategy({ ...props, botDepth: 4 }),
       "Tactics Only depth 5": tacticsOnlyStrategy({ ...props, botDepth: 5 }),
-      "Tactics Only depth 6": tacticsOnlyStrategy({ ...props, botDepth: 6 })
+      "Tactics Only depth 6": tacticsOnlyStrategy({ ...props, botDepth: 6 }),
+      "Alpha A depth 3": alphaHeuristicStrategy({ ...props, botDepth: 3 }),
+      "Alpha A depth 4": alphaHeuristicStrategy({ ...props, botDepth: 4 }),
+      "Alpha A depth 5": alphaHeuristicStrategy({ ...props, botDepth: 5 }),
+      "Alpha A depth 6": alphaHeuristicStrategy({ ...props, botDepth: 6 })
     };
   }
 
