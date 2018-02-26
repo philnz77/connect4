@@ -1,8 +1,15 @@
 import { getCols } from "./reducer";
-import getGroupings from "./getGroupings";
+import { getGroupings, getHoleGroupings } from "./getGroupings";
 
-export default ({ connect, numRows, numCols, players }) => {
-  const groupings = getGroupings(connect, numRows, numCols);
+export default ({
+  connect,
+  numRows,
+  numCols,
+  players,
+  excludeColGroupings
+}) => {
+  const groupingsFn = excludeColGroupings ? getHoleGroupings : getGroupings;
+  const groupings = groupingsFn(connect, numRows, numCols);
   return state => {
     const potentials = new Array(players.length).fill(0);
     for (let g = 0; g < groupings.length; g++) {

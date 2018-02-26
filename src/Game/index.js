@@ -31,7 +31,27 @@ class Game extends Component {
       "Alpha A depth 3": alphaHeuristicStrategy({ ...props, botDepth: 3 }),
       "Alpha A depth 4": alphaHeuristicStrategy({ ...props, botDepth: 4 }),
       "Alpha A depth 5": alphaHeuristicStrategy({ ...props, botDepth: 5 }),
-      "Alpha A depth 6": alphaHeuristicStrategy({ ...props, botDepth: 6 })
+      "Alpha A depth 6": alphaHeuristicStrategy({ ...props, botDepth: 6 }),
+      "Alpha H depth 3": alphaHeuristicStrategy({
+        ...props,
+        botDepth: 3,
+        excludeColGroupings: true
+      }),
+      "Alpha H depth 4": alphaHeuristicStrategy({
+        ...props,
+        botDepth: 4,
+        excludeColGroupings: true
+      }),
+      "Alpha H depth 5": alphaHeuristicStrategy({
+        ...props,
+        botDepth: 5,
+        excludeColGroupings: true
+      }),
+      "Alpha H depth 6": alphaHeuristicStrategy({
+        ...props,
+        botDepth: 6,
+        excludeColGroupings: true
+      })
     };
   }
 

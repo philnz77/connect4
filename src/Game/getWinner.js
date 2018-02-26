@@ -1,5 +1,5 @@
 import { getCols } from "./reducer";
-import getGroupings from "./getGroupings";
+import { getGroupings } from "./getGroupings";
 
 export default ({ connect, numRows, numCols }) => {
   const groupings = getGroupings(connect, numRows, numCols);

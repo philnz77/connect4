@@ -36,10 +36,14 @@ const Players = ({ setPlayerToBot, players }) => {
                 <option value="Tactics Only depth 6">
                   Tactics Only depth 6
                 </option>
-                <option value="Alpha A depth 3">Alpha A depth 3</option>{" "}
-                <option value="Alpha A depth 4">Alpha A depth 4</option>{" "}
-                <option value="Alpha A depth 5">Alpha A depth 5</option>{" "}
+                <option value="Alpha A depth 3">Alpha A depth 3</option>
+                <option value="Alpha A depth 4">Alpha A depth 4</option>
+                <option value="Alpha A depth 5">Alpha A depth 5</option>
                 <option value="Alpha A depth 6">Alpha A depth 6</option>
+                <option value="Alpha H depth 3">Alpha H depth 3</option>
+                <option value="Alpha H depth 4">Alpha H depth 4</option>
+                <option value="Alpha H depth 5">Alpha H depth 5</option>
+                <option value="Alpha H depth 6">Alpha H depth 6</option>
               </select>{" "}
               {hasTurn && <TurnMarker player={player} />}
             </li>

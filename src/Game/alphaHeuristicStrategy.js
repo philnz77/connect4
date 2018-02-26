@@ -1,5 +1,6 @@
 import { range, sortBy } from "ramda";
 import _getWinner from "./getWinner";
+
 import _getPotentials from "./getPotentials";
 import { getTurn, dropInCol, getPlayerIndexWithTurn } from "./reducer";
 
@@ -11,9 +12,11 @@ import {
 } from "./strategyUtil";
 
 export default props => {
-  const getWinner = _getWinner(props);
-  const getPotentials = _getPotentials(props);
   const { botDepth, players, numCols } = props;
+
+  const getWinner = _getWinner(props);
+
+  const getPotentials = _getPotentials(props);
 
   const evaluateDrops = currentState => {
     const currentTurn = getTurn(currentState);
