@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "hoek": "4.2.1",
     "husky": "^0.14.3",
     "lint-staged": "^6.1.0",
     "prop-types": "^15.6.0",
