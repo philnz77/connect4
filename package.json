@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "deep-extend": "0.5.1",
     "hoek": "4.2.1",
     "husky": "^0.14.3",
     "lint-staged": "^6.1.0",
