@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "deep-extend": "0.6.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "merge": "^2.1.1",
