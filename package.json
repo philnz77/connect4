@@ -3,17 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "deep-extend": "0.5.1",
-    "hoek": "4.2.1",
-    "husky": "^0.14.3",
-    "lint-staged": "^6.1.1",
-    "merge": "1.2.1",
-    "prop-types": "^15.7.2",
-    "ramda": "^0.25.0",
-    "react": "^16.10.2",
-    "react-dev-utils": "^9.1.0",
-    "react-dom": "^16.10.2",
-    "react-scripts": "^3.2.0"
+    "deep-extend": "0.6.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "merge": "^2.1.1",
+    "prop-types": "^15.8.1",
+    "ramda": "^0.29.0",
+    "react": "^18.2.0",
+    "react-dev-utils": "^12.0.1",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,7 +28,7 @@
     ]
   },
   "devDependencies": {
-    "prettier": "1.10.2"
+    "prettier": "2.8.8"
   },
   "browserslist": {
     "production": [
